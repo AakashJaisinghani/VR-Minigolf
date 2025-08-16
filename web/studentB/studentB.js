@@ -42,4 +42,36 @@ const dbg = scene.getMeshByName("Object_43") || scene.meshes[0];
 dbg.material = dbg.material || new BABYLON.PBRMaterial("dbg", scene);
 dbg.material.emissiveColor = new BABYLON.Color3(1, 0, 1);
 
+// ---------------------------------------------------------------------
+
+// Material to the ball
+
+// --- CandyBall Materialize PBR ---
+// --- CandyBall Materialize PBR ---
+// CANDY BALL (striped)
+// CANDY BALL (Materialize maps)
+(function makeMaterializedBall(){
+  const ball = scene.getMeshByName("golfBall") || scene.meshes.find(m=>/golf/i.test(m.name));
+  if (!ball) return;
+
+  const pbr = new BABYLON.PBRMaterial("ballPBR", scene);
+  pbr.albedoTexture   = new BABYLON.Texture("images/CandyTextures/CandyBall.jpg", scene);
+  pbr.bumpTexture     = new BABYLON.Texture("images/CandyTextures/CandyBall_normal.png", scene);
+  pbr.metallicTexture = new BABYLON.Texture("images/CandyTextures/CandyBall_specular.png", scene); // or roughness/ORM you exported
+  pbr.metallic  = 0.0;
+  pbr.roughness = 0.25;
+  pbr.clearCoat.isEnabled = true;
+  pbr.clearCoat.intensity = 1.0;
+  pbr.clearCoat.roughness = 0.05;
+
+  ball.material = pbr;
+})();
+
+const mesh = scene.getMeshByName("mainCourseMeshName"); // replace with actual mesh name
+if (mesh && mesh.material) {
+  mesh.material.lightmapTexture = new BABYLON.Texture("images/lightmap.png", scene);
+  mesh.material.useLightmapAsShadowMap = true;
+}
+
+
 }
