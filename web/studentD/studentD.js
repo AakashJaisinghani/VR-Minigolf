@@ -8,6 +8,8 @@ async function setupStudentD(scene) {
   let n = makeNodeObject(scene); // n holds meshes, empties/transformNodes, cameras and lights
   let a = makeAnimationGroupObject(scene);
 
+
+  //bg music and quack sound
   (async () => {
     const audioEngine = await BABYLON.CreateAudioEngineAsync();
     await audioEngine.unlockAsync();
@@ -19,6 +21,8 @@ music.play({ loop: true });
 
 const quack = await BABYLON.CreateSoundAsync("quack", "studentD/sound/quack.mp3");
 
+
+//music play on click
 addPickAction(n.golfBall, function(item) {
   var impulseDirection = scene.activeCamera.getForwardRay().direction;
   let impulseMagnitude = 0.15;
@@ -31,6 +35,29 @@ addPickAction(n.golfBall, function(item) {
 });
 
 
+//teleport1
+addPickAction(n["teleport.001_outer"], function(){
+  scene.activeCamera.position = n["teleport.001_outer"].getAbsolutePosition().clone();
+});
+
+//teleport2
+addPickAction(n["teleport.002_outer"], function(){
+  scene.activeCamera.position = n["teleport.002_outer"].getAbsolutePosition().clone();
+});
+
+
+
+//ANIMATION
+let Animbutton = scene.getNodeByName("TCylinder");
+let animationGroup = scene.getAnimationGroupByName("Armature|mixamo.com|Layer0");
+animationGroup.stop();
+Animbutton.actionManager = new BABYLON.ActionManager(scene);
+Animbutton.actionManager.registerAction(
+    new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, function () {
+        console.log("Button clicked!");
+        animationGroup.start(false);
+    })
+);
 
 
 
